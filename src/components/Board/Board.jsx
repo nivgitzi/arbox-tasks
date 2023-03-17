@@ -5,7 +5,6 @@ const Board = ({floorsAmount, elevatorsAmount}) => {
 
     const floors = [];
 
-    console.log(floorsAmount)
     for(let index = floorsAmount -1 ; index >= 0; index--) {
         floors.push(<Floor key={index} elevatorsAmount={elevatorsAmount} floorIndex={index}/>)
     }

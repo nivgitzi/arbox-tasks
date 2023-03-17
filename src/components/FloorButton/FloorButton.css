@@ -1,0 +1,29 @@
+button {
+    cursor: pointer;
+    padding: 12px;
+    min-width: 80px;
+    border-radius: 3px;
+    height: 5vh;
+    text-align: center;
+    display: block;
+    line-height: 0;
+    border: 0;
+    box-shadow:0px 1px 2px #979693;
+}
+
+.call-btn {
+    background: #5bcd88;
+    color: #ffffff;
+}
+
+.waiting-btn {
+    background: #ed484d;
+    color: #ffffff;
+}
+
+.arrived-btn {
+    border: 1.5px solid #5bcd88;
+    font-weight: 600;
+    background-color: transparent;
+    color: #5bcd88;
+}
