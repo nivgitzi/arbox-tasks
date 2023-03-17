@@ -1,0 +1,5 @@
+.board {
+    border-collapse: separate;
+    border-spacing: 2px 1px; 
+    margin-top: 2vh;
+}
