@@ -1,17 +1,16 @@
 .elevator {
-    width: 5vw;
-    height: 5vh;
+  width: 5vw;
+  height: 5vh;
 }
 
 .call.elevator {
-    background-color: #000000;
+  background-color: #000000;
 }
 
-.waiting.elevator{
-    background-color: #ed484d;
+.waiting.elevator {
+  background-color: #ed484d;
 }
 
-.arrived.elevator{
-    background-color: #5bcd88;
+.arrived.elevator {
+  background-color: #5bcd88;
 }
-

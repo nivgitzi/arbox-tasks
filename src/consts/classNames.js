@@ -1,7 +1,7 @@
-import { floorStatus } from "./floors"
+import { floorStatus } from "./floors";
 
 export const statusClassNames = {
-    [floorStatus.call]: "call",
-    [floorStatus.waiting]: "waiting",
-    [floorStatus.arrived]: "arrived"
-}
+  [floorStatus.call]: "call",
+  [floorStatus.waiting]: "waiting",
+  [floorStatus.arrived]: "arrived",
+};
