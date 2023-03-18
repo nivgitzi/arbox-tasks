@@ -1,9 +1,9 @@
-import { buttonClassnames, buttonTitles } from "../../consts/floorButtons"
+import { statusClassNames } from "../../consts/classNames"
+import { buttonTitles } from "../../consts/floorButtons"
 import "./FloorButton.css"
 
-const FloorButton = ({floorState}) => {
-    console.log(floorState)
-    return (<button className={buttonClassnames[floorState]}>{buttonTitles[floorState]}</button>)
+const FloorButton = ({status}) => {
+    return (<button className={statusClassNames[status]}>{buttonTitles[status]}</button>)
 }
 
 export default FloorButton

@@ -1,7 +1,7 @@
 import "./Tile.css"
 
-const Tile = () => {
-    return <td className="tile">Tile</td>
+const Tile = ({ children }) => {
+    return <td className="tile">{children}</td>
 }
 
 export default Tile;

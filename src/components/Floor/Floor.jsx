@@ -2,11 +2,12 @@ import "./Floor.css"
 import Tile from "../Tile/Tile"
 import FloorButton from "../FloorButton/FloorButton"
 import { useState } from "react"
-import {floorStates} from "../../consts/floors"
+import {floorStatus} from "../../consts/floors"
+import Elevator from "../Elevator/Elevator"
 
 
-const Floor = ({elevatorsAmount, floorIndex}) => {
-    const [floorState] = useState(floorStates.call)
+const Floor = ({elevatorFloors, floorIndex}) => {
+    const [status] = useState(floorStatus.call)
 
     const getFloorTitle = (floorIndex) => {
         switch (floorIndex) {
@@ -25,15 +26,15 @@ const Floor = ({elevatorsAmount, floorIndex}) => {
 
     const tiles = [];
 
-    for(let index = 0; index < elevatorsAmount; index++) {
-        tiles.push(<Tile key={index}>Tile</Tile>)
+    for(let index = 0; index < elevatorFloors.length; index++) {
+        tiles.push(<Tile key={index}>{ elevatorFloors[index] === floorIndex && <Elevator />}</Tile>)
     }
 
     return (
     <tr className="floor">
         <th className="floor-title">{getFloorTitle(floorIndex)}</th>
         <>{tiles}</>
-        <td className="floor-btn"><FloorButton floorState={floorState}/></td>
+        <td className="floor-btn"><FloorButton status={status}/></td>
     </tr>
     )
 }
