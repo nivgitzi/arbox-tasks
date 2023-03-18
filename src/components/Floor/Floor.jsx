@@ -1,11 +1,20 @@
 import "./Floor.css";
 import Tile from "../Tile/Tile";
 import FloorButton from "../FloorButton/FloorButton";
-import { useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { floorStatus } from "../../consts/floors";
 import Elevator from "../Elevator/Elevator";
+import { ReactComponent as ElevatorIcon } from "../../icons/elevator.svg";
+import { statusClassNames } from "../../consts/classNames";
 
-const Floor = ({ elevatorFloors, floorIndex }) => {
+const Floor = ({
+  elevatorFloors,
+  floorIndex,
+  onCall,
+  moveElevator,
+  children,
+}) => {
+  const tilesRef = useRef([]);
   const [status, setStatus] = useState(floorStatus.call);
 
   const getFloorTitle = (floorIndex) => {
@@ -26,25 +35,51 @@ const Floor = ({ elevatorFloors, floorIndex }) => {
   const tiles = [];
 
   for (let index = 0; index < elevatorFloors.length; index++) {
+    console.log(status);
     tiles.push(
-      <Tile key={index}>
-        {elevatorFloors[index] === floorIndex && <Elevator status={status} />}
-      </Tile>
+      <td
+        className="tile"
+        key={index}
+        ref={(el) => (tilesRef.current[index] = el)}
+      >
+        {elevatorFloors[index] === floorIndex &&
+          status === floorStatus.call &&
+          children[index]}
+      </td>
     );
   }
 
   const handleElevatorCall = () => {
-    setStatus(floorStatus.waiting);
+    const [closestElevatorIndex, closestDiff] = onCall(floorIndex);
+    const offsetTop = tilesRef.current[closestElevatorIndex].offsetTop;
+    const transitionDurationS = moveElevator(
+      closestElevatorIndex,
+      offsetTop,
+      closestDiff,
+      floorIndex
+    );
+
+    // setStatus(floorStatus.waiting);
+
+    // setTimeout(() => {
+    //   setStatus(floorStatus.arrived);
+
+    //   setTimeout(() => {
+    //     setStatus(floorStatus.call);
+    //   }, 2000);
+    // }, transitionDurationS * 1000);
   };
 
   return (
-    <tr className="floor">
-      <th className="floor-title">{getFloorTitle(floorIndex)}</th>
-      <>{tiles}</>
-      <td className="floor-btn">
-        <FloorButton status={status} onClick={handleElevatorCall} />
-      </td>
-    </tr>
+    <>
+      <tr className="floor">
+        <th className="floor-title">{getFloorTitle(floorIndex)}</th>
+        <>{tiles}</>
+        <td className="floor-btn">
+          <FloorButton status={status} onClick={handleElevatorCall} />
+        </td>
+      </tr>
+    </>
   );
 };
 
