@@ -12,6 +12,8 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
   );
   const elevatorsRef = useRef([]);
 
+  // TODO: fix buttons state change
+
   const floors = [];
   const elevators = [];
 
