@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { findClosestValueIndex } from "../../utilities/arrays";
 import Floor from "../Floor/Floor";
 import "./Board.css";
@@ -10,40 +10,31 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
   const [elevatorFloors, setElevatorFloors] = useState(
     Array(elevatorsAmount).fill(0)
   );
+
+  const [elevatorsStatus, setElevatorsStatus] = useState(
+    Array(elevatorsAmount).fill(floorStatus.call)
+  );
+
   const elevatorsRef = useRef([]);
 
-  // TODO: fix buttons state change
+  // TODO: Now no use in Elevator & Tile
 
-  const floors = [];
-  const elevators = [];
+  const elevators = useMemo(() => {
+    const boardElevators = [];
+    for (let index = 0; index < elevatorFloors.length; index++) {
+      boardElevators.push(
+        <div
+          className="elevator"
+          key={index}
+          ref={(el) => (elevatorsRef.current[index] = el)}
+        >
+          <ElevatorIcon className="elevator-icon" />
+        </div>
+      );
+    }
 
-  for (let index = 0; index < elevatorFloors.length; index++) {
-    elevators.push(
-      <div
-        className="elevator"
-        key={index}
-        ref={(el) => (elevatorsRef.current[index] = el)}
-      >
-        <ElevatorIcon className="elevator-icon" />
-      </div>
-    );
-  }
-
-  const handleElevatorCall = (floorIndex) => {
-    const [closetElevatorIndex, closestDiff] = findClosestValueIndex(
-      elevatorFloors,
-      floorIndex
-    );
-
-    setElevatorFloors((prev) => {
-      // Object.assign([], { ...prev, [closetElevatorIndex]: floorIndex });
-      const curr = prev;
-      curr[closetElevatorIndex] = floorIndex;
-      return curr;
-    });
-
-    return [closetElevatorIndex, closestDiff];
-  };
+    return boardElevators;
+  }, [elevatorFloors]);
 
   const moveElevator = (elevatorIndex, offsetTop, closestDiff, floorIndex) => {
     let currElevatorRef = elevatorsRef.current[elevatorIndex];
@@ -63,29 +54,77 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
         statusClassNames[floorStatus.arrived]
       }`;
 
+      setElevatorsStatus((prev) => {
+        const curr = prev;
+        curr[elevatorIndex] = floorStatus.arrived;
+        return curr;
+      });
+
       setTimeout(() => {
         currElevatorRef.className = `elevator ${
           statusClassNames[floorStatus.call]
         }`;
+
+        setElevatorsStatus((prev) => {
+          const curr = prev;
+          curr[elevatorIndex] = floorStatus.call;
+          return curr;
+        });
       }, 2000);
     }, transitionDurationS * 1000);
 
     return transitionDurationS;
   };
 
-  for (let index = floorsAmount - 1; index >= 0; index--) {
-    floors.push(
-      <Floor
-        key={index}
-        elevatorFloors={elevatorFloors}
-        moveElevator={moveElevator}
-        onCall={handleElevatorCall}
-        floorIndex={index}
-      >
-        {elevators}
-      </Floor>
+  const handleElevatorCall = (floorIndex) => {
+    const availableElevatorFloors = elevatorFloors.map(
+      (elevatorFloor, index) => {
+        const isElevatorAvailable = elevatorsStatus[index] === floorStatus.call;
+        return isElevatorAvailable ? elevatorFloor : null;
+      }
     );
-  }
+
+    const [closetElevatorIndex, closestDiff] = findClosestValueIndex(
+      availableElevatorFloors,
+      floorIndex
+    );
+
+    setElevatorsStatus((prev) => {
+      const curr = prev;
+      curr[closetElevatorIndex] = floorStatus.waiting;
+      return curr;
+    });
+
+    setElevatorFloors((prev) => {
+      // Object.assign([], { ...prev, [closetElevatorIndex]: floorIndex });
+
+      const curr = prev;
+      curr[closetElevatorIndex] = floorIndex;
+      return curr;
+    });
+
+    return [closetElevatorIndex, closestDiff];
+  };
+
+  const floors = useMemo(() => {
+    const boardFloors = [];
+
+    for (let index = floorsAmount - 1; index >= 0; index--) {
+      boardFloors.push(
+        <Floor
+          key={index}
+          elevatorFloors={elevatorFloors}
+          moveElevator={moveElevator}
+          onCall={handleElevatorCall}
+          floorIndex={index}
+        >
+          {elevators}
+        </Floor>
+      );
+    }
+
+    return boardFloors;
+  }, [elevatorFloors]);
 
   return (
     <table className="board">
