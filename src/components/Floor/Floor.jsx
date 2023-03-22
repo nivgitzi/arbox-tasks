@@ -1,6 +1,6 @@
 import "./Floor.css";
 import FloorButton from "../FloorButton/FloorButton";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createElement, useEffect, useMemo, useRef, useState } from "react";
 import { floorStatus } from "../../consts/floors";
 
 const Floor = ({
@@ -48,6 +48,7 @@ const Floor = ({
           key={index}
           ref={(el) => (tilesRef.current[index] = el)}
         >
+          <span className="time"></span>
           {elevatorFloors[index] === floorIndex &&
             status === floorStatus.call &&
             children[index]}
@@ -72,13 +73,31 @@ const Floor = ({
 
       setStatus(floorStatus.waiting);
 
+      const duration = transitionDurationS * 1000;
+      const start = performance.now();
+
+      const interval = setInterval(() => {
+        const milis = Math.ceil(
+          (duration - (performance.now() - start)) / 1000
+        );
+        const minutes = Math.floor(milis / 60);
+        const seconds = Math.ceil(milis % 60);
+
+        if (milis > 0) {
+          tilesRef.current[
+            closestElevatorIndex
+          ].children[0].innerText = `${minutes} min, ${seconds} sec`;
+        }
+      }, 1);
+
       setTimeout(() => {
         setStatus(floorStatus.arrived);
-
+        clearInterval(interval);
+        tilesRef.current[closestElevatorIndex].children[0].innerText = "";
         setTimeout(() => {
           setStatus(floorStatus.call);
-        }, 5000);
-      }, transitionDurationS * 1000);
+        }, 2000);
+      }, duration);
     } else {
       addCallToQueue(floorIndex);
     }

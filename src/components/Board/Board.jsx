@@ -44,7 +44,7 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
     const transitionDurationS = closestDiff * 0.5;
 
     currElevatorRef.style.transform = `translateY(${newHeight}px)`;
-    currElevatorRef.style.transitionDuration = `${transitionDurationS}s`;
+    currElevatorRef.style.transitionDuration = `${transitionDurationS + 0.5}s`;
 
     currElevatorRef.className = `elevator ${
       statusClassNames[floorStatus.waiting]
@@ -64,7 +64,7 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
 
         elevatorsStatus[elevatorIndex] = floorStatus.call;
         setIsElevatorAvailable(true);
-      }, 5000);
+      }, 2000);
     }, transitionDurationS * 1000);
 
     return transitionDurationS;
