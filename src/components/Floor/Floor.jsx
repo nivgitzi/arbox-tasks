@@ -1,14 +1,14 @@
 import "./Floor.css";
-import Tile from "../Tile/Tile";
 import FloorButton from "../FloorButton/FloorButton";
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { floorStatus } from "../../consts/floors";
-import Elevator from "../Elevator/Elevator";
-import { ReactComponent as ElevatorIcon } from "../../icons/elevator.svg";
-import { statusClassNames } from "../../consts/classNames";
 
 const Floor = ({
   elevatorFloors,
+  isElevatorAvailable,
+  removeCallFromQueue,
+  addCallToQueue,
+  elevatorsCallQueue,
   floorIndex,
   onCall,
   moveElevator,
@@ -17,7 +17,14 @@ const Floor = ({
   const tilesRef = useRef([]);
   const [status, setStatus] = useState(floorStatus.call);
 
-  const getFloorTitle = (floorIndex) => {
+  useEffect(() => {
+    if (elevatorsCallQueue[0] === floorIndex && isElevatorAvailable) {
+      removeCallFromQueue();
+      handleElevatorCall();
+    }
+  }, [isElevatorAvailable]);
+
+  const getFloorTitle = useMemo(() => {
     switch (floorIndex) {
       case 0:
         return "Ground Floor";
@@ -30,7 +37,7 @@ const Floor = ({
       default:
         return `${floorIndex}th`;
     }
-  };
+  }, [floorIndex]);
 
   const floorTiles = useMemo(() => {
     const tiles = [];
@@ -51,31 +58,36 @@ const Floor = ({
     return tiles;
   }, [elevatorFloors]);
 
-  const handleElevatorCall = () => {
-    const [closestElevatorIndex, closestDiff] = onCall(floorIndex);
-    const offsetTop = tilesRef.current[closestElevatorIndex].offsetTop;
-    const transitionDurationS = moveElevator(
-      closestElevatorIndex,
-      offsetTop,
-      closestDiff,
-      floorIndex
-    );
+  const handleElevatorCall = async () => {
+    const [closestElevatorIndex, closestDiff] = await onCall(floorIndex);
 
-    setStatus(floorStatus.waiting);
+    if (closestElevatorIndex !== -1) {
+      const offsetTop = tilesRef.current[closestElevatorIndex].offsetTop;
+      const transitionDurationS = moveElevator(
+        closestElevatorIndex,
+        offsetTop,
+        closestDiff,
+        floorIndex
+      );
 
-    setTimeout(() => {
-      setStatus(floorStatus.arrived);
+      setStatus(floorStatus.waiting);
 
       setTimeout(() => {
-        setStatus(floorStatus.call);
-      }, 2000);
-    }, transitionDurationS * 1000);
+        setStatus(floorStatus.arrived);
+
+        setTimeout(() => {
+          setStatus(floorStatus.call);
+        }, 5000);
+      }, transitionDurationS * 1000);
+    } else {
+      addCallToQueue(floorIndex);
+    }
   };
 
   return (
     <>
       <tr className="floor">
-        <th className="floor-title">{getFloorTitle(floorIndex)}</th>
+        <th className="floor-title">{getFloorTitle}</th>
         <>{floorTiles}</>
         <td className="floor-btn">
           <FloorButton status={status} onClick={handleElevatorCall} />

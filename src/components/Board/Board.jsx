@@ -11,13 +11,14 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
     Array(elevatorsAmount).fill(0)
   );
 
-  const [elevatorsStatus, setElevatorsStatus] = useState(
-    Array(elevatorsAmount).fill(floorStatus.call)
-  );
+  const [elevatorsCallQueue] = useState([]);
+  const [isElevatorAvailable, setIsElevatorAvailable] = useState(true);
 
   const elevatorsRef = useRef([]);
 
-  // TODO: Now no use in Elevator & Tile
+  const elevatorsStatus = useMemo(() => {
+    return Array(elevatorsAmount).fill(floorStatus.call);
+  }, []);
 
   const elevators = useMemo(() => {
     const boardElevators = [];
@@ -54,56 +55,55 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
         statusClassNames[floorStatus.arrived]
       }`;
 
-      setElevatorsStatus((prev) => {
-        const curr = prev;
-        curr[elevatorIndex] = floorStatus.arrived;
-        return curr;
-      });
+      elevatorsStatus[elevatorIndex] = floorStatus.arrived;
 
       setTimeout(() => {
         currElevatorRef.className = `elevator ${
           statusClassNames[floorStatus.call]
         }`;
 
-        setElevatorsStatus((prev) => {
-          const curr = prev;
-          curr[elevatorIndex] = floorStatus.call;
-          return curr;
-        });
-      }, 2000);
+        elevatorsStatus[elevatorIndex] = floorStatus.call;
+        setIsElevatorAvailable(true);
+      }, 5000);
     }, transitionDurationS * 1000);
 
     return transitionDurationS;
   };
 
-  const handleElevatorCall = (floorIndex) => {
+  const handleElevatorCall = async (floorIndex) => {
     const availableElevatorFloors = elevatorFloors.map(
       (elevatorFloor, index) => {
-        const isElevatorAvailable = elevatorsStatus[index] === floorStatus.call;
-        return isElevatorAvailable ? elevatorFloor : null;
+        const isAvailable = elevatorsStatus[index] === floorStatus.call;
+        return isAvailable ? elevatorFloor : null;
       }
     );
+
+    if (availableElevatorFloors.findIndex((floor) => floor !== null) === -1) {
+      setIsElevatorAvailable((prev) => false);
+      return [-1, -1];
+    }
 
     const [closetElevatorIndex, closestDiff] = findClosestValueIndex(
       availableElevatorFloors,
       floorIndex
     );
-
-    setElevatorsStatus((prev) => {
-      const curr = prev;
-      curr[closetElevatorIndex] = floorStatus.waiting;
-      return curr;
-    });
+    elevatorsStatus[closetElevatorIndex] = floorStatus.waiting;
 
     setElevatorFloors((prev) => {
-      // Object.assign([], { ...prev, [closetElevatorIndex]: floorIndex });
-
       const curr = prev;
       curr[closetElevatorIndex] = floorIndex;
       return curr;
     });
 
     return [closetElevatorIndex, closestDiff];
+  };
+
+  const removeCallFromQueue = () => {
+    elevatorsCallQueue.splice(0, 1);
+  };
+
+  const addCallToQueue = (floorIndex) => {
+    elevatorsCallQueue.push(floorIndex);
   };
 
   const floors = useMemo(() => {
@@ -114,6 +114,10 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
         <Floor
           key={index}
           elevatorFloors={elevatorFloors}
+          isElevatorAvailable={isElevatorAvailable}
+          elevatorsCallQueue={elevatorsCallQueue}
+          removeCallFromQueue={removeCallFromQueue}
+          addCallToQueue={addCallToQueue}
           moveElevator={moveElevator}
           onCall={handleElevatorCall}
           floorIndex={index}
@@ -124,7 +128,7 @@ const Board = ({ floorsAmount, elevatorsAmount }) => {
     }
 
     return boardFloors;
-  }, [elevatorFloors]);
+  }, [elevatorFloors, isElevatorAvailable]);
 
   return (
     <table className="board">
