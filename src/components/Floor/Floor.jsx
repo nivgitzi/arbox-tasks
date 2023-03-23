@@ -1,7 +1,7 @@
 import "./Floor.css";
 import FloorButton from "../FloorButton/FloorButton";
 import { createElement, useEffect, useMemo, useRef, useState } from "react";
-import { floorStatus } from "../../consts/floors";
+import { floorArrivalSound, floorStatus } from "../../consts/floors";
 
 const Floor = ({
   elevatorFloors,
@@ -91,6 +91,7 @@ const Floor = ({
       }, 1);
 
       setTimeout(() => {
+        floorArrivalSound.play();
         setStatus(floorStatus.arrived);
         clearInterval(interval);
         tilesRef.current[closestElevatorIndex].children[0].innerText = "";
