@@ -1,7 +1,7 @@
 import { useState } from "react";
 import dashboardImg from "./images/dashboard.png";
 import "./App.css";
-import { Drawer } from "./components/Drawer/Drawer";
+import { ClassDrawer } from "./components/ClassDrawer/ClassDrawer";
 
 const App = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -13,7 +13,10 @@ const App = () => {
   return (
     <div className="App">
       <img className="dashboard" src={dashboardImg} onClick={handleClick}></img>
-      <Drawer open={isDrawerOpen} setIsOpen={setIsDrawerOpen}></Drawer>
+      <ClassDrawer
+        open={isDrawerOpen}
+        setIsOpen={setIsDrawerOpen}
+      ></ClassDrawer>
     </div>
   );
 };
