@@ -1,6 +1,6 @@
 import "./Floor.css";
 import FloorButton from "../FloorButton/FloorButton";
-import { createElement, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { floorArrivalSound, floorStatus } from "../../consts/floors";
 
 const Floor = ({

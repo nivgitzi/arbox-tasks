@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { statusClassNames } from "../../consts/classNames";
 import { buttonTitles } from "../../consts/floorButtons";
 import { floorStatus } from "../../consts/floors";
