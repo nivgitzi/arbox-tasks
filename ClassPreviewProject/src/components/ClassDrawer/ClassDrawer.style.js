@@ -19,6 +19,7 @@ export const ClassActions = styled("div")({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-evenly",
+  padding: "0 1vw",
 });
 
 export const CancelClassSection = styled("div")({
@@ -38,7 +39,7 @@ export const ClassHeader = styled("div")({
   justifyContent: "center",
   flexDirection: "column",
   alignItems: "center",
-  paddingBottom: "4vh",
+  padding: "0 0 4vh 1vw",
 });
 
 export const ClassImage = styled("img")({
@@ -56,10 +57,10 @@ export const ClassTitle = styled("div")({
 });
 
 export const DetailsContainer = styled("div")({
-  paddingTop: "3vh",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-evenly",
+  padding: "4vh 1vw 2vh",
 });
 
 export const DetailSection = styled("div")({
@@ -67,7 +68,7 @@ export const DetailSection = styled("div")({
   justifyContent: "center",
   flexDirection: "column",
   alignItems: "center",
-  paddingBottom: "4vh",
+  padding: "4vh 1vw",
 });
 
 export const KnowladgeSection = styled("div")({
@@ -75,9 +76,7 @@ export const KnowladgeSection = styled("div")({
   justifyContent: "center",
   flexDirection: "column",
   alignItems: "left",
-  paddingTop: "4vh",
-  paddingBottom: "4vh",
-  paddingLeft: "2vh",
+  padding: "4vh 1vw",
 });
 
 export const KnowladgeTitle = styled("div")({
@@ -91,14 +90,22 @@ export const KnowladgeDesc = styled("div")({
   display: "flex",
   fontWeight: 200,
   fontSize: "0.9rem",
-  paddingBottom: "1vh",
 });
 
 export const ParticipantsHeader = styled("div")({
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "row",
-  paddingTop: "4vh",
-  paddingBottom: "4vh",
-  paddingLeft: "2vh",
+  padding: "4vh 1vw",
+});
+
+export const AddClientBtn = styled(Button)({
+  display: "flex",
+  backgroundColor: "#F6F6F6",
+  textTransform: "unset",
+  color: "#000000",
+});
+
+export const AddClientBtnText = styled("span")({
+  marginRight: "3vw",
 });

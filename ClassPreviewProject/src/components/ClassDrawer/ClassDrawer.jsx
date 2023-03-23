@@ -14,12 +14,14 @@ import {
   KnowladgeDesc,
   ParticipantsHeader,
   AddClientBtn,
+  AddClientBtnText,
 } from "./ClassDrawer.style";
 import { ReactComponent as CalenderIcon } from "../../icons/calender.svg";
 import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 import { ReactComponent as FuelIcon } from "../../icons/fuel.svg";
 import { ReactComponent as TimeIcon } from "../../icons/time.svg";
 import { ReactComponent as CoachIcon } from "../../icons/coach.svg";
+import { ReactComponent as PlusIcon } from "../../icons/plus.svg";
 import ClassImg from "../../images/class.png";
 import { Divider } from "@mui/material";
 
@@ -72,6 +74,10 @@ export const ClassDrawer = ({ open, setIsOpen }) => {
         <Divider />
         <ParticipantsHeader>
           <KnowladgeTitle>Participants</KnowladgeTitle>
+          <AddClientBtn>
+            <AddClientBtnText>Add client</AddClientBtnText>
+            <PlusIcon />
+          </AddClientBtn>
         </ParticipantsHeader>
       </SideDrawerContent>
     </SideDrawer>
