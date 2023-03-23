@@ -32,3 +32,23 @@ export const EditSection = styled("div")({
   display: "flex",
   flexDirection: "row",
 });
+
+export const ClassHeader = styled("div")({
+  display: "flex",
+  justifyContent: "center",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+export const ClassImage = styled("img")({
+  display: "flex",
+  width: "120px",
+});
+
+export const ClassTitle = styled("div")({
+  display: "flex",
+  width: "fit-content",
+  fontSize: "1.2rem",
+  fontWeight: 600,
+  color: "#000000",
+});
