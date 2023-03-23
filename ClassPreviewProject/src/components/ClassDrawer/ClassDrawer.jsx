@@ -15,6 +15,8 @@ import {
   ParticipantsHeader,
   AddClientBtn,
   AddClientBtnText,
+  DetailSectionDesc,
+  DetailSectionTitle,
 } from "./ClassDrawer.style";
 import { ReactComponent as CalenderIcon } from "../../icons/calender.svg";
 import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
@@ -24,6 +26,7 @@ import { ReactComponent as CoachIcon } from "../../icons/coach.svg";
 import { ReactComponent as PlusIcon } from "../../icons/plus.svg";
 import ClassImg from "../../images/class.png";
 import { Divider } from "@mui/material";
+import { ParticipantList } from "../ParticipantsList/ParticipantsList";
 
 export const ClassDrawer = ({ open, setIsOpen }) => {
   const handleClose = () => {
@@ -50,18 +53,18 @@ export const ClassDrawer = ({ open, setIsOpen }) => {
         <DetailsContainer>
           <DetailSection>
             <CoachIcon />
-            <h5>Tom A</h5>
-            <small>Coach</small>
+            <DetailSectionTitle>Tom A</DetailSectionTitle>
+            <DetailSectionDesc>Coach</DetailSectionDesc>
           </DetailSection>
           <DetailSection>
             <TimeIcon />
-            <h5>16:15</h5>
-            <small>Start Time</small>
+            <DetailSectionTitle>16:15</DetailSectionTitle>
+            <DetailSectionDesc>Start Time</DetailSectionDesc>
           </DetailSection>
           <DetailSection>
             <FuelIcon />
-            <h5>3/15</h5>
-            <small>Participants</small>
+            <DetailSectionTitle>3/15</DetailSectionTitle>
+            <DetailSectionDesc>Participants</DetailSectionDesc>
           </DetailSection>
         </DetailsContainer>
         <Divider />
@@ -79,6 +82,7 @@ export const ClassDrawer = ({ open, setIsOpen }) => {
             <PlusIcon />
           </AddClientBtn>
         </ParticipantsHeader>
+        <ParticipantList />
       </SideDrawerContent>
     </SideDrawer>
   );

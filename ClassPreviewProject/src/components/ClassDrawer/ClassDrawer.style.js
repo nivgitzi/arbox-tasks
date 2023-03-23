@@ -1,4 +1,5 @@
-import { Button, Drawer, Paper, styled } from "@mui/material";
+import styled from "@emotion/styled";
+import { Button, Drawer, Paper } from "@mui/material";
 
 export const SideDrawer = styled(Drawer)({
   width: "20vw",
@@ -44,7 +45,7 @@ export const ClassHeader = styled("div")({
 
 export const ClassImage = styled("img")({
   display: "flex",
-  width: "120px",
+  width: "6vw",
   paddingBottom: "0.5vh",
 });
 
@@ -65,10 +66,19 @@ export const DetailsContainer = styled("div")({
 
 export const DetailSection = styled("div")({
   display: "flex",
-  justifyContent: "center",
   flexDirection: "column",
   alignItems: "center",
-  padding: "4vh 1vw",
+  padding: "2vh 1vw",
+});
+
+export const DetailSectionTitle = styled("span")({
+  fontWeight: 600,
+  paddingTop: "12px",
+});
+
+export const DetailSectionDesc = styled("span")({
+  fontWeight: 200,
+  fontSize: "0.8rem",
 });
 
 export const KnowladgeSection = styled("div")({
@@ -96,7 +106,7 @@ export const ParticipantsHeader = styled("div")({
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "row",
-  padding: "4vh 1vw",
+  padding: "4vh 1vw 2vh",
 });
 
 export const AddClientBtn = styled(Button)({
