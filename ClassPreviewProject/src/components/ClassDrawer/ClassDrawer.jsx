@@ -31,14 +31,43 @@ import { useState } from "react";
 import { AddClientList } from "../AddClientList/AddClientList";
 
 export const ClassDrawer = ({ open, setIsOpen }) => {
-  const [isClientsListOpen, setIsClientsListOpen] = useState(false);
+  const [clientsList, setClientsList] = useState(clients);
+  const [participantsList, setParticipantsList] = useState(participants);
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
-  const handleAddClientClick = () => {
-    setIsClientsListOpen(true);
+  const handleClientClick = (selectedClient) => {
+    setParticipantsList((prevState) => {
+      const currState = [...prevState];
+      currState.push(selectedClient);
+      return currState;
+    });
+
+    setClientsList((prevState) => {
+      const currState = prevState.filter(
+        (client) => client.name !== selectedClient.name
+      );
+
+      return currState;
+    });
+  };
+
+  const deleteParticipant = (deletedParticipant) => {
+    setParticipantsList((prevState) => {
+      const currState = prevState.filter(
+        (participant) => participant.name !== deletedParticipant.name
+      );
+
+      return currState;
+    });
+
+    setClientsList((prevState) => {
+      const currState = [...prevState];
+      currState.push(deletedParticipant);
+      return currState;
+    });
   };
 
   return (
@@ -86,9 +115,15 @@ export const ClassDrawer = ({ open, setIsOpen }) => {
         <Divider />
         <ParticipantsHeader>
           <KnowladgeTitle>Participants</KnowladgeTitle>
-          <AddClientList clients={clients} />
+          <AddClientList
+            clients={clientsList}
+            handleClientClick={handleClientClick}
+          />
         </ParticipantsHeader>
-        <ParticipantList participants={participants} />
+        <ParticipantList
+          participants={participantsList}
+          deleteParticipant={deleteParticipant}
+        />
       </SideDrawerContent>
     </SideDrawer>
   );

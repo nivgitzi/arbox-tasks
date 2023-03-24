@@ -9,8 +9,7 @@ import {
 } from "./AddClientList.style";
 import { ReactComponent as PlusIcon } from "../../icons/plus.svg";
 
-export const AddClientList = ({ clients }) => {
-  const [clientsList, setClientsList] = useState(clients);
+export const AddClientList = ({ clients, handleClientClick }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -34,10 +33,13 @@ export const AddClientList = ({ clients }) => {
       }}
     >
       <AddClientListContainer>
-        {clientsList.map(({ avatar, name }) => (
-          <ClientContainer key={name}>
-            <ClientAvatar src={avatar}></ClientAvatar>
-            <ClientName>{name}</ClientName>
+        {clients.map((client) => (
+          <ClientContainer
+            key={client.name}
+            onClick={() => handleClientClick(client)}
+          >
+            <ClientAvatar src={client.avatar}></ClientAvatar>
+            <ClientName>{client.name}</ClientName>
           </ClientContainer>
         ))}
       </AddClientListContainer>

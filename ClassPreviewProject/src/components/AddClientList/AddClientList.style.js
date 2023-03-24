@@ -9,11 +9,6 @@ export const AddClientSelect = styled(Select)({
 
   "& .MuiSelect-select": {
     padding: "0 10px",
-
-    "&:focus": {
-      borderWidth: "1px !important",
-      borderColor: "#05C050",
-    },
   },
 
   "& .MuiSvgIcon-root": {
@@ -21,9 +16,7 @@ export const AddClientSelect = styled(Select)({
   },
 
   "& *": {
-    // borderWidth: "1px !important",
-    // borderColor: "#05C050",
-    outlineColor: "#05C050",
+    borderWidth: "1px !important",
   },
 });
 

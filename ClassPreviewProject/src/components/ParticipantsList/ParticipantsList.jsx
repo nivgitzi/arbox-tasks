@@ -1,24 +1,15 @@
-import { useState } from "react";
 import { Participant } from "../Participant/Participant";
 import { ParticipantListContainer } from "./ParticipantsList.style";
 
-export const ParticipantList = ({ participants }) => {
-  const [participantsList, setParticipantsList] = useState(participants);
-
-  const deleteParticipant = (name) => {
-    setParticipantsList((prevState) => {
-      return prevState.filter((participant) => participant.name !== name);
-    });
-  };
-
+export const ParticipantList = ({ participants, deleteParticipant }) => {
   return (
     <ParticipantListContainer>
-      {participantsList.map(({ avatar, name }) => (
+      {participants.map((participant) => (
         <Participant
-          key={name}
-          avatar={avatar}
-          name={name}
-          deleteParticipant={deleteParticipant}
+          key={participant.name}
+          avatar={participant.avatar}
+          name={participant.name}
+          deleteParticipant={() => deleteParticipant(participant)}
         />
       ))}
     </ParticipantListContainer>
