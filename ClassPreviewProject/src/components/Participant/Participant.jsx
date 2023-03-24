@@ -11,11 +11,15 @@ import {
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as WhatsappIcon } from "../../icons/whatsapp.svg";
 
-export const Participant = ({ name, avatar }) => {
+export const Participant = ({ name, avatar, deleteParticipant }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheck = () => {
     setIsChecked((prevState) => !prevState);
+  };
+
+  const handleTrashClick = () => {
+    deleteParticipant(name);
   };
 
   return (
@@ -30,7 +34,7 @@ export const Participant = ({ name, avatar }) => {
           <WhatsappIcon />
         </ParticipantAction>
         <ParticipantAction>
-          <TrashIcon />
+          <TrashIcon onClick={handleTrashClick} />
         </ParticipantAction>
       </ParticipantActions>
     </ParticipantContainer>
