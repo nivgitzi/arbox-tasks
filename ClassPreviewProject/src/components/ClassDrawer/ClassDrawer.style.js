@@ -108,14 +108,3 @@ export const ParticipantsHeader = styled("div")({
   flexDirection: "row",
   padding: "4vh 1vw 2vh",
 });
-
-export const AddClientBtn = styled(Button)({
-  display: "flex",
-  backgroundColor: "#F6F6F6",
-  textTransform: "unset",
-  color: "#000000",
-});
-
-export const AddClientBtnText = styled("span")({
-  marginRight: "3vw",
-});

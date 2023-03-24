@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { participants } from "../../mocks/participants";
 import { Participant } from "../Participant/Participant";
 import { ParticipantListContainer } from "./ParticipantsList.style";
 
-export const ParticipantList = () => {
+export const ParticipantList = ({ participants }) => {
   const [participantsList, setParticipantsList] = useState(participants);
 
   const deleteParticipant = (name) => {

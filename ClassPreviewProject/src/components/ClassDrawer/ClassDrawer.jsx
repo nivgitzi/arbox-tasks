@@ -13,7 +13,6 @@ import {
   KnowladgeTitle,
   KnowladgeDesc,
   ParticipantsHeader,
-  AddClientBtn,
   AddClientBtnText,
   DetailSectionDesc,
   DetailSectionTitle,
@@ -23,15 +22,25 @@ import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 import { ReactComponent as FuelIcon } from "../../icons/fuel.svg";
 import { ReactComponent as TimeIcon } from "../../icons/time.svg";
 import { ReactComponent as CoachIcon } from "../../icons/coach.svg";
-import { ReactComponent as PlusIcon } from "../../icons/plus.svg";
 import ClassImg from "../../images/class.png";
 import { Divider } from "@mui/material";
 import { ParticipantList } from "../ParticipantsList/ParticipantsList";
+import { participants } from "../../mocks/participants";
+import { clients } from "../../mocks/clients";
+import { useState } from "react";
+import { AddClientList } from "../AddClientList/AddClientList";
 
 export const ClassDrawer = ({ open, setIsOpen }) => {
+  const [isClientsListOpen, setIsClientsListOpen] = useState(false);
+
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const handleAddClientClick = () => {
+    setIsClientsListOpen(true);
+  };
+
   return (
     <SideDrawer open={open} anchor="right" onClose={handleClose}>
       <SideDrawerContent>
@@ -77,12 +86,9 @@ export const ClassDrawer = ({ open, setIsOpen }) => {
         <Divider />
         <ParticipantsHeader>
           <KnowladgeTitle>Participants</KnowladgeTitle>
-          <AddClientBtn>
-            <AddClientBtnText>Add client</AddClientBtnText>
-            <PlusIcon />
-          </AddClientBtn>
+          <AddClientList clients={clients} />
         </ParticipantsHeader>
-        <ParticipantList />
+        <ParticipantList participants={participants} />
       </SideDrawerContent>
     </SideDrawer>
   );
